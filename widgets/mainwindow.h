@@ -318,7 +318,6 @@ private slots:
   void chk_FST4_freq_range();
   void on_pbFoxReset_clicked();
   void on_comboBoxHoundSort_activated (int index);
-  void not_GA_warning_message ();
   void checkMSK144ContestType();
   void on_pbBestSP_clicked();
   void on_RoundRobin_currentTextChanged(QString text);
