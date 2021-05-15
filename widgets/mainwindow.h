@@ -67,7 +67,6 @@ namespace Ui {
 
 class QProcessEnvironment;
 class QSharedMemory;
-class QSplashScreen;
 class QSettings;
 class QLineEdit;
 class QFont;
@@ -107,7 +106,7 @@ public:
 
   explicit MainWindow(QDir const& temp_directory, bool multiple, MultiSettings *,
                       QSharedMemory *shdmem, unsigned downSampleFactor,
-                      QSplashScreen *, QProcessEnvironment const&,
+                      QProcessEnvironment const&,
                       QWidget *parent = nullptr);
   ~MainWindow();
 
@@ -308,7 +307,6 @@ private slots:
   void on_actionMSK144_triggered();
   void on_actionQ65_triggered();
   void on_actionFreqCal_triggered();
-  void splash_done ();
   void on_measure_check_box_stateChanged (int);
   void on_sbNlist_valueChanged(int n);
   void on_sbNslots_valueChanged(int n);
@@ -366,7 +364,6 @@ private:
   QProcessEnvironment const& m_env;
   NetworkAccessManager m_network_manager;
   bool m_valid;
-  QSplashScreen * m_splash;
   QString m_revision;
   bool m_multiple;
   MultiSettings * m_multi_settings;
@@ -598,7 +595,6 @@ private:
   QTimer tuneATU_Timer;
   QTimer TxAgainTimer;
   QTimer minuteTimer;
-  QTimer splashTimer;
   QTimer p1Timer;
 
   QString m_path;

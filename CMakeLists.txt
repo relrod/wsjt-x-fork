@@ -215,7 +215,6 @@ set (wsjt_qt_CXXSRCS
   MultiSettings.cpp
   validators/MaidenheadLocatorValidator.cpp
   validators/CallsignValidator.cpp
-  widgets/SplashScreen.cpp
   EqualizationToolsDialog.cpp
   widgets/DoubleClickablePushButton.cpp
   widgets/DoubleClickableRadioButton.cpp
@@ -705,7 +704,6 @@ set (all_C_and_CXXSRCS
 set (TOP_LEVEL_RESOURCES
   icons/Darwin/wsjtx.iconset/icon_128x128.png
   contrib/gpl-v3-logo.svg
-  artwork/splash.png
   )
 
 set (PALETTE_FILES

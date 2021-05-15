@@ -37,7 +37,6 @@
 #include <QAction>
 #include <QButtonGroup>
 #include <QActionGroup>
-#include <QSplashScreen>
 #include <QUdpSocket>
 #include <QAbstractItemView>
 #include <QInputDialog>
@@ -241,12 +240,11 @@ namespace
 MainWindow::MainWindow(QDir const& temp_directory, bool multiple,
                        MultiSettings * multi_settings, QSharedMemory *shdmem,
                        unsigned downSampleFactor,
-                       QSplashScreen * splash, QProcessEnvironment const& env, QWidget *parent) :
+                       QProcessEnvironment const& env, QWidget *parent) :
   MultiGeometryWidget {parent},
   m_env {env},
   m_network_manager {this},
   m_valid {true},
-  m_splash {splash},
   m_revision {revision ()},
   m_multiple {multiple},
   m_multi_settings {multi_settings},
@@ -1009,10 +1007,6 @@ MainWindow::MainWindow(QDir const& temp_directory, bool multiple,
   minuteTimer.setSingleShot (true);
   minuteTimer.start (ms_minute_error () + 60 * 1000);
 
-  connect (&splashTimer, &QTimer::timeout, this, &MainWindow::splash_done);
-  splashTimer.setSingleShot (true);
-  splashTimer.start (20 * 1000);
-
   ui->pbBestSP->setVisible(m_mode=="FT4");
 
 // this must be the last statement of constructor
@@ -1023,11 +1017,6 @@ void MainWindow::initialize_fonts ()
 {
   set_application_font (m_config.text_font ());
   setDecodedTextFont (m_config.decoded_text_font ());
-}
-
-void MainWindow::splash_done ()
-{
-  m_splash && m_splash->close ();
 }
 
 void MainWindow::on_the_minute ()
@@ -1779,13 +1768,11 @@ void MainWindow::fastSink(qint64 frames)
 
 void MainWindow::showSoundInError(const QString& errorMsg)
 {
-  if (m_splash && m_splash->isVisible ()) m_splash->hide ();
   MessageBox::critical_message (this, tr ("Error in Sound Input"), errorMsg);
 }
 
 void MainWindow::showSoundOutError(const QString& errorMsg)
 {
-  if (m_splash && m_splash->isVisible ()) m_splash->hide ();
   MessageBox::critical_message (this, tr ("Error in Sound Output"), errorMsg);
 }
 
@@ -2263,7 +2250,6 @@ void MainWindow::statusChanged()
       ;
     f.close();
   } else {
-    if (m_splash && m_splash->isVisible ()) m_splash->hide ();
     MessageBox::warning_message (this, tr ("Status File Error")
                                  , tr ("Cannot open \"%1\" for writing: %2")
                                  .arg (f.fileName ()).arg (f.errorString ()));
@@ -2394,7 +2380,6 @@ bool MainWindow::subProcessFailed (QProcess * process, int exit_code, QProcess::
           if (argument.contains (' ')) argument = '"' + argument + '"';
           arguments << argument;
         }
-      if (m_splash && m_splash->isVisible ()) m_splash->hide ();
       MessageBox::critical_message (this, tr ("Subprocess Error")
                                     , tr ("Subprocess failed with exit code %1")
                                     .arg (exit_code)
@@ -2416,7 +2401,6 @@ void MainWindow::subProcessError (QProcess * process, QProcess::ProcessError)
           if (argument.contains (' ')) argument = '"' + argument + '"';
           arguments << argument;
         }
-      if (m_splash && m_splash->isVisible ()) m_splash->hide ();
       MessageBox::critical_message (this, tr ("Subprocess error")
                                     , tr ("Running: %1\n%2")
                                     .arg (process->program () + ' ' + arguments.join (' '))
@@ -7261,7 +7245,6 @@ void MainWindow::rigFailure (QString const& reason)
     }
   else
     {
-      if (m_splash && m_splash->isVisible ()) m_splash->hide ();
       m_rigErrorMessageBox.setDetailedText (reason + "\n\nTimestamp: "
 #if QT_VERSION >= QT_VERSION_CHECK (5, 8, 0)
                                             + QDateTime::currentDateTimeUtc ().toString (Qt::ISODateWithMs)
@@ -7896,7 +7879,6 @@ void MainWindow::postWSPRDecode (bool is_new, QStringList parts)
 
 void MainWindow::networkError (QString const& e)
 {
-  if (m_splash && m_splash->isVisible ()) m_splash->hide ();
   if (MessageBox::Retry == MessageBox::warning_message (this, tr ("Network Error")
                                                         , tr ("Error: %1\nUDP server %2:%3")
                                                         .arg (e)
