@@ -2104,15 +2104,6 @@ void MainWindow::keyPressEvent (QKeyEvent * e)
           return;
       }
       break;
-    case Qt::Key_F:
-      if(e->modifiers() & Qt::ControlModifier) {
-        if(ui->tabWidget->currentIndex()==0) {
-          ui->tx5->clearEditText();
-          ui->tx5->setFocus();
-        }
-        return;
-      }
-      break;
     case Qt::Key_G:
       if(e->modifiers() & Qt::AltModifier) {
         genStdMsgs (m_rpt, true);
